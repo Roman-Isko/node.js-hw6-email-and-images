@@ -1,13 +1,26 @@
+// import createHttpError from 'http-errors';
+
+// export const validateBody = (schema) => {
+//   return (req, res, next) => {
+//     const { error } = schema.validate(req.body);
+
+//     if (error) {
+//       return next(createHttpError(400, error.details[0].message));
+//     }
+
+//     next();
+//   };
+// };
+
+// src/middlewares/validateBody.js
 import createHttpError from 'http-errors';
 
 export const validateBody = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);
-
     if (error) {
-      return next(createHttpError(400, error.details[0].message));
+      return next(createHttpError(400, error.message));
     }
-
     next();
   };
 };
