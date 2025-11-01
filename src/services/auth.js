@@ -6,6 +6,9 @@ import User from '../models/user.js';
 import Session from '../models/session.js';
 import config from '../config/index.js';
 
+import { sendEmail } from '../utils/sendEmail.js';
+import crypto from 'crypto';
+
 export const findUserByEmail = async (email) => {
   return await User.findOne({ email }).exec();
 };
@@ -70,4 +73,21 @@ export const verifyRefreshToken = async (refreshToken) => {
 
 export const deleteSessionByRefreshToken = async (refreshToken) => {
   await Session.findOneAndDelete({ refreshToken });
+};
+
+export const sendResetEmail = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) throw createHttpError(404, 'User not found');
+
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetLink = `${config.app.frontendUrl}/reset-password?token=${resetToken}`;
+
+  // TODO: зберегти токен у базу (наприклад, у User або в ResetToken модель)
+  // await User.updateOne({ _id: user._id }, { resetToken, resetTokenExpires: new Date(Date.now() + 3600000) });
+
+  await sendEmail({
+    to: user.email,
+    subject: 'Reset your password',
+    html: `<p>Click the link below to reset your password:</p><a href="${resetLink}">${resetLink}</a>`,
+  });
 };

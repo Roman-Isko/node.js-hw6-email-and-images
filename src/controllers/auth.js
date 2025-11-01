@@ -98,3 +98,66 @@ export const logoutController = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * GET /auth/current
+ */
+export const getCurrentUserController = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      throw createHttpError(401, 'Not authorized');
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Current user fetched successfully',
+      data: {
+        name: req.user.name,
+        email: req.user.email,
+        subscription: req.user.subscription || 'free',
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * POST /auth/reset-password
+ */
+export const resetPasswordController = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await authService.findUserByEmail(email);
+    if (!user) throw createHttpError(404, 'User not found');
+
+    const resetToken = await authService.createPasswordResetToken(user._id);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Password reset link sent to email!',
+      data: { resetToken },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * POST /auth/send-reset-email
+ */
+export const sendResetEmailController = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    await authService.sendResetEmail(email);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Password reset email sent successfully',
+    });
+  } catch (err) {
+    next(err);
+  }
+};

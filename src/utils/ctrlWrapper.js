@@ -7,3 +7,5 @@ export const ctrlWrapper = (ctrl) => {
     }
   };
 };
+
+export default ctrlWrapper;

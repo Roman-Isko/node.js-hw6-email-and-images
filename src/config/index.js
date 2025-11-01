@@ -32,10 +32,26 @@ const bcrypt = {
   saltRounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 10,
 };
 
+const app = {
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
+};
+
+const email = {
+  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+  port: Number(process.env.EMAIL_PORT) || 587,
+  secure: false,
+  user: process.env.EMAIL_USER,
+  pass: process.env.EMAIL_PASS,
+  fromName: 'Support Team',
+  fromEmail: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+};
+
 export default {
   env,
   jwt,
   cookie,
   bcrypt,
+  app,
+  email,
   MS_IN_SEC,
 };

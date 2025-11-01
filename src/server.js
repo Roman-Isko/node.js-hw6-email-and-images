@@ -1,7 +1,10 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+
 import contactsRouter from './routers/Contacts.js';
 import authRouter from './routers/auth.js';
+// import testEmailRouter from './routers/testEmailRouter.js';
+
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
@@ -12,15 +15,16 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 export default function setupServer() {
   const app = express();
 
-  // Middleware
+  // --- Middleware ---
   app.use(express.json());
   app.use(cookieParser());
 
-  // Роути
+  // --- Routes ---
   app.use('/api/auth', authRouter);
   app.use('/api/contacts', contactsRouter);
+  // app.use('/api/test-email', testEmailRouter);
 
-  // Обробники помилок
+  // --- Error Handlers ---
   app.use(notFoundHandler);
   app.use(errorHandler);
 

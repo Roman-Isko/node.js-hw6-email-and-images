@@ -1,29 +1,3 @@
-// src/services/email.js
-// import nodemailer from 'nodemailer';
-
-// const transporter = nodemailer.createTransport({
-//   host: process.env.SMTP_HOST,
-//   port: Number(process.env.SMTP_PORT) || 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.SMTP_USER,
-//     pass: process.env.SMTP_PASSWORD,
-//   },
-// });
-
-// export const sendMail = async ({ to, subject, html, text }) => {
-//   return transporter.sendMail({
-//     from: process.env.SMTP_FROM,
-//     to,
-//     subject,
-//     html,
-//     text,
-//   });
-// };
-
-///////////////////////////////////////////////////////////////////
-
-// src/services/email.js
 import nodemailer from 'nodemailer';
 
 const {
@@ -39,7 +13,7 @@ const {
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
   port: Number(SMTP_PORT) || 587,
-  secure: Number(SMTP_PORT) === 465, // true для SSL-порту 465, false для 587
+  secure: Number(SMTP_PORT) === 465,
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASSWORD,
@@ -91,28 +65,3 @@ export const sendResetEmail = async (email, token) => {
 
   return sendMail({ to: email, subject: 'Password Reset Request', html, text });
 };
-
-////////////////////////////////////////////////////////////////////
-
-// src/services/email.js
-// import nodemailer from 'nodemailer';
-
-// const transporter = nodemailer.createTransport({
-//   host: process.env.SMTP_HOST,
-//   port: Number(process.env.SMTP_PORT) || 587,
-//   secure: false,
-//   auth: {
-//     user: process.env.SMTP_USER,
-//     pass: process.env.SMTP_PASSWORD,
-//   },
-// });
-
-// export const sendMail = async ({ to, subject, html, text }) => {
-//   return transporter.sendMail({
-//     from: process.env.SMTP_FROM,
-//     to,
-//     subject,
-//     html,
-//     text,
-//   });
-// };

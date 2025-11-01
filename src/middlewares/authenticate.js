@@ -45,3 +45,5 @@ export const authenticate = async (req, res, next) => {
     next(err);
   }
 };
+
+export default authenticate;
